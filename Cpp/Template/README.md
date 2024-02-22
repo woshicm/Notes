@@ -1,0 +1,1 @@
+01_IfHasMethods.hpp 检测类中是否存在某些函数
