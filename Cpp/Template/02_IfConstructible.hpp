@@ -73,3 +73,6 @@ T valueT(TypeT<T>);
 
 constexpr auto isDefaultConstructible = isValid([](auto x) ->decltype((void) decltype(valueT(x))())
 	{});
+//调用
+isDefaultConstructible(type<int>); //true
+isDefaultConstructible(type<type_info>); //false
