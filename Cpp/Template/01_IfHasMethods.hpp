@@ -37,5 +37,5 @@ public:
 /**方法2
  * @description: lambda实现，C++17
  */
-//引用03_CallWhen.hpp中的isValid
+//引用02_CallWhen.hpp中的isValid
 constexpr auto hasGet = isValid([](auto x) ->decltype((void)valueT(x).get) {});
