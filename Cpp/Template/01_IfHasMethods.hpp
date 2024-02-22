@@ -38,4 +38,4 @@ public:
  * @description: lambda实现，C++17
  */
 //引用02_CallWhen.hpp中的isValid
-constexpr auto hasGet = isValid([](auto x) ->decltype((void)valueT(x).get) {});
+constexpr auto hasGet = isValid([](auto x) ->decltype((void)valueT(x).get) {});//[1]为何此处的valueT(x).get不会报错？
