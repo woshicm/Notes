@@ -1,9 +1,9 @@
 /*
- * @Date: 2024-02-22 13:25
- * @LastEditTime: 2024-02-22 13:29
+ * @Date: 2024-02-22
+ * @LastEditTime: 2024-02-22
  * @Description: 检测类中是否存在某些函数
  * 
- * Copyright (c) 2024 by Microport, All Rights Reserved. 
+ * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
 
 #pragma once
