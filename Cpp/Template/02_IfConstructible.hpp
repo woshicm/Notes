@@ -2,6 +2,7 @@
  * @Date: 2024-02-22
  * @LastEditTime: 2024-02-22
  * @Description: 检测类的对象是能被构造
+ * @Ref: "C++ Template, 2nd"
  * 
  * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
