@@ -6,10 +6,11 @@
  * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
 /**方法1
- * @description: 原始SFINAE（C++98）判断类型是否一致
+ * @description: 利用模板函数重载实现
  */
+//(1)自定义分支判断的结构体
 template<class T>
-struct CanBeConstruct
+struct isDefaultConstructibleT
 {
 	template<class, class = decltype(T())>
 	static char test(void*);
@@ -17,12 +18,9 @@ struct CanBeConstruct
 	static long test(...);
 	static constexpr bool value = std::is_same_v<decltype(test<T>(0)), char>;
 };
-
-/**方法2
- * @description: 使用lambda表达式
- */
+//(2)使用std的结构体
 template<class T>
-struct CanBeConstruct1
+struct isDefaultConstructibleT
 {
 	template<class U, class = decltype(U())>
 	static std::true_type test(void*);
@@ -31,17 +29,23 @@ struct CanBeConstruct1
 	static constexpr bool value = decltype(test<T>(0))::value;
 };
 
+/**方法2
+ * @description: 利用类的重载实现
+ */
 template<class...>
 using VoidT = void;
 
-template<class, class = std::void_t<>>
-struct CanBeConstruct : std::false_type {};
+template<class, class = VoidT<>>
+struct isDefaultConstructibleT : std::false_type {};
 
 template<class T>
-struct CanBeConstruct<T, std::void_t<decltype(T())>> : std::true_type {};
+struct isDefaultConstructibleT<T, VoidT<decltype(T())>> : std::true_type {};
+
+template<class T>
+using isDefaultConstructible = isDefaultConstructibleT<T>;
 
 /**方法3
- * @description: 使用lambda表达式
+ * @description: 使用lambda表达式实现
  */
 template<class F, class...Args, class = decltype(std::declval<F>()(std::declval<Args&&>()...))>
 std::true_type isValidImpl(void*);
