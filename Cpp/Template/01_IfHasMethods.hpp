@@ -2,6 +2,7 @@
  * @Date: 2024-02-22
  * @LastEditTime: 2024-02-22
  * @Description: 检测类中是否存在某些函数
+ * @Ref: "C++ Template, 2nd"
  * 
  * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
@@ -14,7 +15,7 @@ concept StrOnly = requires(T x)
 };
 
 template<class T>
-	requires StrOnly<T>
+requires StrOnly<T>
 void print(T&& t)
 {
 	std::cout << t.get();
