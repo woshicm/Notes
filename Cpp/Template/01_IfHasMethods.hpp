@@ -7,6 +7,9 @@
  * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
 
+/**方法1
+ * @description: C++20
+ */
 template<class T>
 concept StrOnly = requires(T x)
 {
@@ -30,3 +33,9 @@ public:
 	}
 	void draw() {}
 };
+
+/**方法2
+ * @description: lambda实现，C++17
+ */
+//引用03_CallWhen.hpp中的isValid
+constexpr auto hasGet = isValid([](auto x) ->decltype((void)valueT(x).get) {});
