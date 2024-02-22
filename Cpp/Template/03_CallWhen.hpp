@@ -2,6 +2,7 @@
  * @Date: 2024-02-22
  * @LastEditTime: 2024-02-22
  * @Description: 根据对象类型做决策
+ * @Ref: "C++ Template, 2nd"
  * 
  * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
