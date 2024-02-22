@@ -6,9 +6,6 @@
  * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
 
-#pragma once
-#include <iostream>
-
 template<class T>
 concept StrOnly = requires(T x)
 {
