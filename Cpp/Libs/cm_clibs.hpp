@@ -5,7 +5,7 @@
  */
 #include <iostream>
 #include <fmt/core.h>
-
+#include <functional>
 using namespace std::literals;
 
 #if defined(_MSVC_LANG)
@@ -15,14 +15,10 @@ using namespace std::literals;
         #define CM_MSVC_CXX17
     #endif  
 #endif
-#define CMC_HAS_CPP14_ATTRIBUTE(attribute) \
-  (FMT_CPLUSPLUS >= 201402L && FMT_HAS_CPP_ATTRIBUTE(attribute))
 
-#define CMC_HAS_CPP17_ATTRIBUTE(attribute) \
-  (FMT_CPLUSPLUS >= 201703L && FMT_HAS_CPP_ATTRIBUTE(attribute))
-
-#define CMC_HAS_CPP20_ATTRIBUTE(attribute) \
-  (FMT_CPLUSPLUS >= 202003L && FMT_HAS_CPP_ATTRIBUTE(attribute))
+#if defined(CM_MSVC_CXX20)
+#include<format>
+#endif
 
 namespace cmc
 {
@@ -63,33 +59,63 @@ namespace cmc
             _print<Args...>(msg, std::make_tuple(args...));
         }
     };
-#define __CHECK_PRINT_LINE(x, ...) \
-    cmc::Check_Print::print(fmt::format(R"([CHECK ERROR] Check "{}" failed at line {} in file "{}".)", #x, std::to_string(__LINE__), __FILE__), __VA_ARGS__); 
 
+    struct Check_Lambda {
+        using LambdaT = std::function<void()>;
+
+        template<typename T>
+        static constexpr bool ifLambda = std::is_convertible_v<T, LambdaT>;
+
+        template<typename T> std::enable_if_t<ifLambda<T>>
+        static _invoke(T t)
+        {
+            std::invoke(t);
+        }
+
+        template<typename T> std::enable_if_t<!ifLambda<T>>
+        static _invoke(T)
+        {}
+
+        template<typename... Args>
+        static void invoke(Args... args)
+        {
+            (_invoke(args),...);
+        }
+    };
+
+#if defined(CM_MSVC_CXX20)
+#define __CHECK_COMMON(x, ...) \
+    cmc::Check_Print::print(std::format(R"([CHECK ERROR] Check "{}" failed at line {} in file "{}".)", #x, std::to_string(__LINE__), __FILE__), __VA_ARGS__); \
+    cmc::Check_Lambda::invoke(__VA_ARGS__);
+#else if defined(CM_MSVC_CXX17)
+#define __CHECK_COMMON(x, ...) \
+    cmc::Check_Print::print(fmt::format(R"([CHECK ERROR] Check "{}" failed at line {} in file "{}".)", #x, std::to_string(__LINE__), __FILE__), __VA_ARGS__); \
+    cmc::Check_Lambda::invoke(__VA_ARGS__);
+#endif
 #if defined(CM_MSVC_CXX20)
     #define CHECK(x, ...) \
     if (!(x)){ \
-        __CHECK_PRINT_LINE(x, __VA_ARGS__) \
-        if constexpr(fmt::basic_string_view(__FUNCSIG__).starts_with("void ")) return void(0);\
+        __CHECK_COMMON(x, __VA_ARGS__) \
+        if constexpr(std::string(__FUNCSIG__).starts_with("void ")) return void(0);\
         else return {};\
     }
 
     #define CHECK_R(x, r, ...) \
     if (!(x)){ \
-        __CHECK_PRINT_LINE(x, __VA_ARGS__) \
+        __CHECK_COMMON(x, __VA_ARGS__) \
         return r;\
     }
 #else if defined(CM_MSVC_CXX17)
     #define CHECK(x, ...) \
     if (!(x)){ \
-        __CHECK_PRINT_LINE(x, __VA_ARGS__) \
+        __CHECK_COMMON(x, __VA_ARGS__) \
         if constexpr(fmt::basic_string_view(__FUNCSIG__).starts_with("void ")) return void(0);\
         else return {};\
     }
 
     #define CHECK_R(x, r, ...) \
     if (!(x)){ \
-        __CHECK_PRINT_LINE(x, __VA_ARGS__) \
+        __CHECK_COMMON(x, __VA_ARGS__) \
         return r;\
     }
 #endif
