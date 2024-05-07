@@ -39,3 +39,19 @@ public:
  */
 //引用02_CallWhen.hpp中的isValid
 constexpr auto hasGet = isValid([](auto x) ->decltype((void)valueT(x).get) {});//[1]为何此处的valueT(x).get不会报错？
+
+
+/**源码1 QVariant_p.h中的HasIsNullMethod
+ * @description: 判断类是否有isNull()方法。基本套路和02中的一致。
+ */
+template<typename T>
+class HasIsNullMethod {
+	struct Yes { char unused[1]; };
+	struct No { char unused[2]; };
+	Q_STATIC_ASSERT(sizeof(Yes) != sizeof(No));
+	
+	template<class C> static decltype(static_cast<const C*>(nullptr)->isNull(), Yes()) test(int);
+	template<class C> static No test(...);
+	public:
+	static const bool Value = (sizeof(test<T>(0)) == sizeof(Yes));
+};
