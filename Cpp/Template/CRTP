@@ -1,0 +1,8 @@
+/*
+ * @Date: 2024-05-31
+ * @LastEditTime: 2024-05-31
+ * @Description: CRTP（Curiously Recurring Template Pattern）；静态多态
+ * 
+ * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
+ */
+
