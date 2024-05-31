@@ -1,6 +1,6 @@
 /**
  * Description : Provide easy-used interfaces for hfsm2 in C++11
- * Author: Chenmeng
+ * Author: Cm
  * Date: 2024-5-28
  * */
 
