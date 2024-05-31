@@ -1,6 +1,6 @@
 /**
 * Description : State machine definition and transition realization by hfsm2 in c++11.
- * Author: Chenmeng
+ * Author: Cm
  * Date: 2024-5-28
  * */
 
