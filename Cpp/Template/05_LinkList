@@ -14,7 +14,7 @@ struct Node{};
 template<typename Head, typename... Tail>
 struct Node<Head, Tail...>
 {
-    using val = Head;
+    using node = Head;
     using next = Node<Tail...>;
 };
 
@@ -23,8 +23,35 @@ template<typename>
 void print(...) {}
 
 template<typename T>
-void print(typename std::enable_if<!std::is_same<typename T::val, Node<>>::value>::type* = 0) {
-    std::cout << typeid(T::val).name() << '\n';
+void print(typename std::enable_if<!std::is_same<typename T::node, Node<>>::value>::type* = 0) {
+    std::cout << typeid(T::node).name() << '\n';
     print<typename T::next>(nullptr);
 }
 
+/** 带下标和数据 **/
+template<int, typename...>
+struct Node {
+    static constexpr int ind = -1;
+};
+
+template<int N, typename Head, typename... Tail>
+struct Node<N, Head, Tail...>
+{
+    using node = Head;
+    using next = Node<N, Tail...>;
+    static constexpr int ind = N - (sizeof...(Tail));
+};
+
+template<int VAL>
+struct Info {
+    static constexpr int val = VAL;
+};
+
+template<typename>
+void print(...) {}
+
+template<typename T>
+void print(typename std::enable_if<!std::is_same<typename T::node, Node<0>>::value>::type* = 0) {
+    std::cout << typeid(T::node).name() << ": " << T::ind << ", " << T::node::val << '\n';
+    print<typename T::next>(nullptr);
+}
