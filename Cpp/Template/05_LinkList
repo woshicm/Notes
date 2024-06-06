@@ -6,4 +6,25 @@
  * 
  * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
+/** 基本结构 **/
+//链表
+template<typename...>
+struct Node{};
+
+template<typename Head, typename... Tail>
+struct Node<Head, Tail...>
+{
+    using val = Head;
+    using next = Node<Tail...>;
+};
+
+//遍历
+template<typename>
+void print(...) {}
+
+template<typename T>
+void print(typename std::enable_if<!std::is_same<typename T::val, Node<>>::value>::type* = 0) {
+    std::cout << typeid(T::val).name() << '\n';
+    print<typename T::next>(nullptr);
+}
 
