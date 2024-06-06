@@ -6,7 +6,8 @@
  * 
  * Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
  */
-/** 1.基本结构 **/
+### 1.基本结构
+```cpp
 //链表
 template<typename...>
 struct Node{};
@@ -27,8 +28,10 @@ void print(typename std::enable_if<!std::is_same<typename T::node, Node<>>::valu
     std::cout << typeid(T::node).name() << '\n';
     print<typename T::next>(nullptr);
 }
+```
 
-/** 2.带下标和数据 **/
+### 2.带下标和数据 **/
+```cpp
 template<int, typename...>
 struct Node {
     static constexpr int ind = -1;
@@ -55,8 +58,10 @@ void print(typename std::enable_if<!std::is_same<typename T::node, Node<0>>::val
     std::cout << typeid(T::node).name() << ": " << T::ind << ", " << T::node::val << '\n';
     print<typename T::next>(nullptr);
 }
+```
 
-/** 3. 链表合并 **/
+### 3. 链表合并 **/
+```cpp
 template<typename...>
 struct Merge;
 
@@ -65,3 +70,4 @@ struct Merge<Node<N, Node1...>, Node<M, Node2...> >
 {
     using list = Node<N+M, Node1..., Node2...>;
 };
+```
