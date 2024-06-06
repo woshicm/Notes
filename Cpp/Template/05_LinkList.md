@@ -1,11 +1,7 @@
 > @Date: 2024/6/6
-> 
 > @LastEditTime: 2024/6/6
-> 
 > @Description: 模板——链表
-> 
 > @Ref: "Qt qobjectdefs_impl"
-> 
 > Copyright (c) 2024 by Chenmeng, All Rights Reserved. 
 
 ### 1.基本结构
@@ -32,7 +28,7 @@ void print(typename std::enable_if<!std::is_same<typename T::node, Node<>>::valu
 }
 ```
 
-### 2.带下标和数据 **/
+### 2.带下标和数据
 ```cpp
 template<int, typename...>
 struct Node {
@@ -62,7 +58,7 @@ void print(typename std::enable_if<!std::is_same<typename T::node, Node<0>>::val
 }
 ```
 
-### 3. 链表合并 **/
+### 3. 链表合并
 ```cpp
 template<typename...>
 struct Merge;
