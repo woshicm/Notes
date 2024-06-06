@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-02-22
- * @LastEditTime: 2024-02-22
+ * @LastEditTime: 2024/6/6
  * @Description: 检测类的对象是能被构造
  * @Ref: "C++ Template, 2nd"
  * 
@@ -17,6 +17,8 @@ struct isDefaultConstructibleT
 	static char test(void*);
 	template<class>
 	static long test(...);
+//2024/6/6：这里test<T>(0)的0不能省略，为的是利用...比void*的优先级更高。如果不利用这个特性，
+//	则需要通过std::enable_t控制只有一个函数被匹配。这样算是一种简化技巧。
 	static constexpr bool value = std::is_same_v<decltype(test<T>(0)), char>;
 };
 //(2)使用std的结构体
