@@ -13,6 +13,7 @@
 template<class T>
 struct isDefaultConstructibleT
 {
+//在某些情况下会匹配失败。更推荐static char test(std::enable_t<decltype(T())>::type*)
 	template<class, class = decltype(T())>
 	static char test(void*);
 	template<class>
