@@ -73,3 +73,17 @@ struct Merge<Node<N, Node1...>, Node<M, Node2...> >
     using list = Node<N+M, Node1..., Node2...>;
 };
 ```
+
+### 4.访问指定元素
+```cpp
+template<int N, typename Head>
+struct Select {
+    using node = typename Select<N-1, typename Head::next>::node;
+};
+
+//[2024/6/7]这里改成template<int, typename Head>会使得特化模板失效，原因未知。
+template<typename Head>
+struct Select<0, Head> {
+    using node = typename Head::node;
+};
+```
