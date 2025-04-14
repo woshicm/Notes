@@ -1,6 +1,12 @@
 1 开启或关闭windows功能
 关于Win11安装Ubuntu子系统报错：WslRegisterDistribution failed with error 解决办法
 开启虚拟机平台、Hyper-V、适用于Linux的Windows子系统
+报错：WSL 2 需要更新其内核组件。
+下载[https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi]并安装
+报错：请启用虚拟机平台 Windows 功能并确保在 BIOS 中启用虚拟化。
+```
+bcdedit /set hypervisorlaunchtype auto
+```
 2 Wsl版本转换为2
 wsl --list --verbose
 wsl --set-version Ubuntu 2
